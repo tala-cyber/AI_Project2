@@ -48,10 +48,11 @@ void hard_train_neuron(std::string file, float te){
     int ninputs=3;
     float alpha=0.0001;
     float weights[3]{0.5,-0.5,-0.5};
-    float net; int sign;int error;
+    float net; int sign;int error;float TE;
 
     //learn
     for(int i=0; i<ite;i++){
+        TE=0;
         for(int j=0; j<3000; j++){
             net=0;sign=0;
             for(int k=0; k<3; k++){
@@ -62,13 +63,13 @@ void hard_train_neuron(std::string file, float te){
             for(int k=0;k<3;k++){
                 weights[k]=weights[k]+alpha*input[j][k]*error;
             }
-            if(error*error<te){
-                goto pr;
-            }
+            TE+=error*error;
+        }
+        if(TE<te){
+            break;
         }
     }
-    pr:
-        cout<<"final TE: "<<error*error<<"    ";
+    cout<<"final TE: "<<TE<<"    ";
 
     //test
     int true_pos=0; int true_neg=0;int false_pos=0; int false_neg=0;
@@ -128,10 +129,10 @@ void soft_train_neuron(std::string file, float te){
     int ninputs=3;
     float alpha=0.0001;
     float weights[3]{0.5,-0.2,-0.5};
-    float net; float fbip; float k=0.0001; float error=0;
-
+    float net; float fbip; float k=0.0001; float error=0; float TE=0; 
     //learn
     for(int i=0; i<ite;i++){
+        TE=0;
         for(int j=0; j<3000; j++){
             net=0;
             for(int k=0; k<3; k++){
@@ -142,13 +143,13 @@ void soft_train_neuron(std::string file, float te){
             for(int k=0;k<3;k++){
                 weights[k]=weights[k]+alpha*input[j][k]*error;
             }
-            if(error*error<te){
-                goto pr;
-            }
+            TE+=error*error;
+        }
+        if(TE<te){
+            break;
         }
     }
-    pr:
-        cout<<"final TE: "<<error*error<<"     ";
+    cout<<"final TE: "<<TE<<"     ";
 
     //test
     int true_pos=0; int true_neg=0;int false_pos=0; int false_neg=0;
