@@ -47,7 +47,7 @@ void hard_train_neuron(std::string file, float te){
     //initialize variables
     int ite=5000;
     int ninputs=3;
-    float alpha=0.0001;
+    float alpha=0.001;
     float weights[3]{0.5,-0.5,-0.5};
     float net; float sign;float error;float TE;
 
@@ -128,10 +128,10 @@ void soft_train_neuron(std::string file, float te){
     //initialize variables
     int ite=5000;
     int ninputs=3;
-    float alpha=0.01;
+    float alpha=0.1;
     //float r1= rand()%11-5;int r2= rand()%11-5;int r3= rand()%11-5;
     float weights[3]{0.5,0.2,-0.5};
-    float net; float fbip; float k=2; float error=0; float TE=0; 
+    float net; float fbip; float k=0.1; float error=0; float TE=0; 
     //learn
     for(int i=0; i<ite;i++){
         TE=0;
@@ -182,39 +182,25 @@ void soft_train_neuron(std::string file, float te){
 int main(){
     //Hard Activation Part 1
     //groupA
-    /*
     cout<<"Hard: "<<"\n";
     cout<<"group A"<<"\n";
     hard_train_neuron("Adata.csv",0.00001);
-    hard_train_neuron("Adata.csv",70);
-    hard_train_neuron("Adata.csv",400);
     //groupB
     cout<<"group B"<<"\n";
-    hard_train_neuron("Bdata.csv",0.00001);
     hard_train_neuron("Bdata.csv",70);
-    hard_train_neuron("Bdata.csv",400);
     //groupC
     cout<<"group C"<<"\n";
-    hard_train_neuron("Cdata.csv",0.00001);
-    hard_train_neuron("Cdata.csv",70);
     hard_train_neuron("Cdata.csv",400);
-    */
     //Soft Activation Part 1
     //groupA
     cout<<"Soft: "<<"\n";
     cout<<"group A"<<"\n";
     soft_train_neuron("Adata.csv",0.00001);
-    soft_train_neuron("Adata.csv",40);
-    soft_train_neuron("Adata.csv",700);
     //groupB
     cout<<"group B"<<"\n";
-    soft_train_neuron("Bdata.csv",0.00001);
     soft_train_neuron("Bdata.csv",40);
-    soft_train_neuron("Bdata.csv",700);
     //groupC
     cout<<"group C"<<"\n";
-    soft_train_neuron("Cdata.csv",0.00001);
-    soft_train_neuron("Cdata.csv",40);
     soft_train_neuron("Cdata.csv",700);
 
 }
