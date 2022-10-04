@@ -5,6 +5,7 @@
 #include <array>
 #include <stdlib.h>
 #include <math.h>
+#include <cstdlib>
 using namespace std;
 string col1;
 string col2;
@@ -62,8 +63,8 @@ void hard_train_neuron(std::string file, float te){
             error=dout[j]-sign;
             for(int k=0;k<3;k++){
                 weights[k]=weights[k]+alpha*input[j][k]*error;
+                TE+=error*error;
             }
-            TE+=error*error;
         }
         if(TE<te){
             break;
@@ -128,6 +129,7 @@ void soft_train_neuron(std::string file, float te){
     int ite=5000;
     int ninputs=3;
     float alpha=0.0001;
+    //float r1= rand()%11-5;int r2= rand()%11-5;int r3= rand()%11-5;
     float weights[3]{0.5,-0.2,-0.5};
     float net; float fbip; float k=0.0001; float error=0; float TE=0; 
     //learn
@@ -142,8 +144,9 @@ void soft_train_neuron(std::string file, float te){
             error=dout[j]-fbip;
             for(int k=0;k<3;k++){
                 weights[k]=weights[k]+alpha*input[j][k]*error;
+                TE+=error*error;
             }
-            TE+=error*error;
+            
         }
         if(TE<te){
             break;
@@ -158,13 +161,13 @@ void soft_train_neuron(std::string file, float te){
         for(int k=0; k<3;k++){
             net+=weights[k]*test[i][k];
         }
-        if(net>=0){
+        if(net>=0.0){
             if(dout[i+3000]==1){
                 true_pos++;
             }else{
                 false_pos++;
             }    
-        }else if(net<0){
+        }else if(net<0.0){
             if(dout[i+3000]==0){
                 true_neg++;
             }else{
