@@ -49,7 +49,7 @@ void hard_train_neuron(std::string file, float te){
     int ninputs=3;
     float alpha=0.0001;
     float weights[3]{0.5,-0.5,-0.5};
-    float net; int sign;int error;float TE;
+    float net; float sign;float error;float TE;
 
     //learn
     for(int i=0; i<ite;i++){
@@ -59,7 +59,7 @@ void hard_train_neuron(std::string file, float te){
             for(int k=0; k<3; k++){
                 net=net + weights[k]*input[j][k];
             }
-            if(net>=0){sign=1;}else{sign=-1;}
+            if(net>=0){sign=1;}else{sign=0;}
             error=dout[j]-sign;
             for(int k=0;k<3;k++){
                 weights[k]=weights[k]+alpha*input[j][k]*error;
@@ -121,17 +121,17 @@ void soft_train_neuron(std::string file, float te){
         test[incr][0]=atof(col1.c_str());
         test[incr][1]=atof(col2.c_str());
         test[incr][2]=1;
-        dout[incr]=atof(col3.c_str());
+        dout[incr+3000]=atof(col3.c_str());
         incr++;
     }
 
     //initialize variables
     int ite=5000;
     int ninputs=3;
-    float alpha=0.0001;
+    float alpha=0.01;
     //float r1= rand()%11-5;int r2= rand()%11-5;int r3= rand()%11-5;
-    float weights[3]{0.5,-0.2,-0.5};
-    float net; float fbip; float k=0.5; float error=0; float TE=0; 
+    float weights[3]{0.5,0.2,-0.5};
+    float net; float fbip; float k=2; float error=0; float TE=0; 
     //learn
     for(int i=0; i<ite;i++){
         TE=0;
@@ -140,7 +140,7 @@ void soft_train_neuron(std::string file, float te){
             for(int k=0; k<3; k++){
                 net=net + weights[k]*input[j][k];
             }
-            fbip=2/(1+exp(-2*k*net))-1;
+            fbip=1/(1+exp(-k*net));
             error=dout[j]-fbip;
             for(int k=0;k<3;k++){
                 weights[k]=weights[k]+alpha*input[j][k]*error;
@@ -160,13 +160,14 @@ void soft_train_neuron(std::string file, float te){
         for(int k=0; k<3;k++){
             net+=weights[k]*test[i][k];
         }
-        if(net>=0.0){
+        net=1/(1+exp(-k*net));
+        if(net>0.5){
             if(dout[i+3000]==1){
                 true_pos++;
             }else{
                 false_pos++;
             }    
-        }else if(net<0.0){
+        }else if(net<=0.5){
             if(dout[i+3000]==0){
                 true_neg++;
             }else{
@@ -181,6 +182,7 @@ void soft_train_neuron(std::string file, float te){
 int main(){
     //Hard Activation Part 1
     //groupA
+    /*
     cout<<"Hard: "<<"\n";
     cout<<"group A"<<"\n";
     hard_train_neuron("Adata.csv",0.00001);
@@ -196,7 +198,7 @@ int main(){
     hard_train_neuron("Cdata.csv",0.00001);
     hard_train_neuron("Cdata.csv",70);
     hard_train_neuron("Cdata.csv",400);
-
+    */
     //Soft Activation Part 1
     //groupA
     cout<<"Soft: "<<"\n";
