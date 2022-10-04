@@ -38,7 +38,7 @@ void hard_train_neuron(std::string file, float te){
         test[incr][0]=atof(col1.c_str());
         test[incr][1]=atof(col2.c_str());
         test[incr][2]=1;
-        dout[incr]=atof(col3.c_str());
+        dout[incr+3000]=atof(col3.c_str());
         incr++;
     }
 
@@ -63,8 +63,8 @@ void hard_train_neuron(std::string file, float te){
             error=dout[j]-sign;
             for(int k=0;k<3;k++){
                 weights[k]=weights[k]+alpha*input[j][k]*error;
-                TE+=error*error;
             }
+            TE+=error*error;
         }
         if(TE<te){
             break;
@@ -131,7 +131,7 @@ void soft_train_neuron(std::string file, float te){
     float alpha=0.0001;
     //float r1= rand()%11-5;int r2= rand()%11-5;int r3= rand()%11-5;
     float weights[3]{0.5,-0.2,-0.5};
-    float net; float fbip; float k=0.0001; float error=0; float TE=0; 
+    float net; float fbip; float k=0.5; float error=0; float TE=0; 
     //learn
     for(int i=0; i<ite;i++){
         TE=0;
@@ -144,9 +144,8 @@ void soft_train_neuron(std::string file, float te){
             error=dout[j]-fbip;
             for(int k=0;k<3;k++){
                 weights[k]=weights[k]+alpha*input[j][k]*error;
-                TE+=error*error;
             }
-            
+            TE+=error*error;
         }
         if(TE<te){
             break;
