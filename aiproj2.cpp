@@ -13,6 +13,8 @@ string col3;
 array<array<double,3>,3000> input;
 array<int,4000> dout;
 array<array<double,3>,1000> test;
+array<array<double,3>,1000> input_h;
+array<array<double,3>,3000> test_h;
 
 //the plotting was done using MS Excel since plotting using c++ requires some dependencies and you
 //wouldn't be able to run the code on your pc
@@ -22,13 +24,13 @@ void hard_train_neuron(std::string file, float te){
     // extract and store data
     std::ifstream group (file);
     int incr=0;
-    while (incr<3000) {
+    while (incr<1000) {
         getline(group,col1, ',' );
         getline (group,col2, ',' );
         group >> col3; 
-        input[incr][0]=atof(col1.c_str());
-        input[incr][1]=atof(col2.c_str());
-        input[incr][2]=1;
+        input_h[incr][0]=atof(col1.c_str());
+        input_h[incr][1]=atof(col2.c_str());
+        input_h[incr][2]=1;
         dout[incr]=atof(col3.c_str());
         incr++;
     }
@@ -38,10 +40,10 @@ void hard_train_neuron(std::string file, float te){
         getline(group,col1, ',' );
         getline (group,col2, ',' );
         group >> col3; 
-        test[incr][0]=atof(col1.c_str());
-        test[incr][1]=atof(col2.c_str());
-        test[incr][2]=1;
-        dout[incr+3000]=atof(col3.c_str());
+        test_h[incr][0]=atof(col1.c_str());
+        test_h[incr][1]=atof(col2.c_str());
+        test_h[incr][2]=1;
+        dout[incr+1000]=atof(col3.c_str());
         incr++;
     }
 
@@ -57,15 +59,15 @@ void hard_train_neuron(std::string file, float te){
     //learn
     for(int i=0; i<ite;i++){
         TE=0;
-        for(int j=0; j<3000; j++){
+        for(int j=0; j<1000; j++){
             net=0;sign=0;
             for(int k=0; k<3; k++){
-                net=net + weights[k]*input[j][k];
+                net=net + weights[k]*input_h[j][k];
             }
             if(net>=0){sign=1;}else{sign=0;}
             error=dout[j]-sign;
             for(int k=0;k<3;k++){
-                weights[k]=weights[k]+alpha*input[j][k]*error;
+                weights[k]=weights[k]+alpha*input_h[j][k]*error;
             }
             TE+=error*error;
         }
@@ -77,19 +79,19 @@ void hard_train_neuron(std::string file, float te){
 
     //test
     int true_pos=0; int true_neg=0;int false_pos=0; int false_neg=0;
-    for(int i=0; i<1000;i++){
+    for(int i=0; i<3000;i++){
         net=0;
         for(int k=0; k<3;k++){
-            net+=weights[k]*test[i][k];
+            net+=weights[k]*test_h[i][k];
         }
         if(net>=0){
-            if(dout[i+3000]==1){
+            if(dout[i+1000]==1){
                 true_pos++;
             }else{
                 false_pos++;
             }    
         }else if(net<0){
-            if(dout[i+3000]==0){
+            if(dout[i+1000]==0){
                 true_neg++;
             }else{
                 false_neg++;
@@ -197,7 +199,6 @@ void soft_train_neuron(std::string file, float te){
 int main(){
     //Hard Activation Part 1
     //groupA
-    /*
     cout<<"Hard: "<<"\n";
     cout<<"group A"<<"\n";
     hard_train_neuron("Adata.csv",0.00001);
@@ -207,7 +208,7 @@ int main(){
     //groupC
     cout<<"group C"<<"\n";
     hard_train_neuron("Cdata.csv",400);
-    */
+
     //Soft Activation Part 1
     //groupA
     cout<<"Soft: "<<"\n";
