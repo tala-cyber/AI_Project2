@@ -94,6 +94,10 @@ void hard_train_neuron(std::string file, float te){
         }
     }
     cout<<"correct: "<<true_pos+true_neg<<"    ";
+    cout<<"TP: "<<true_pos<<"    ";
+    cout<<"TN: "<<true_neg<<"    ";
+    cout<<"FP: "<<false_pos<<"   ";
+    cout<<"FN: "<<false_neg<<"    ";
     cout<<"wrong: "<<false_pos+false_neg<<"\n";
    
 }
@@ -151,7 +155,11 @@ void soft_train_neuron(std::string file, float te){
             break;
         }
     }
-    cout<<"final TE: "<<TE<<"     ";
+    cout<<"weights: ";
+    for(int i=0; i<3; i++){
+        cout<<weights[i]<<" ";
+    }
+    cout<<" final TE: "<<TE<<"    ";
 
     //test
     int true_pos=0; int true_neg=0;int false_pos=0; int false_neg=0;
@@ -176,12 +184,17 @@ void soft_train_neuron(std::string file, float te){
         }
     }
     cout<<"correct: "<<true_pos+true_neg<<"     ";
+    cout<<"TP: "<<true_pos<<"    ";
+    cout<<"TN: "<<true_neg<<"    ";
+    cout<<"FP: "<<false_pos<<"   ";
+    cout<<"FN: "<<false_neg<<"   ";
     cout<<"wrong: "<<false_pos+false_neg<<"\n";
 }
 
 int main(){
     //Hard Activation Part 1
     //groupA
+    /*
     cout<<"Hard: "<<"\n";
     cout<<"group A"<<"\n";
     hard_train_neuron("Adata.csv",0.00001);
@@ -191,6 +204,7 @@ int main(){
     //groupC
     cout<<"group C"<<"\n";
     hard_train_neuron("Cdata.csv",400);
+    */
     //Soft Activation Part 1
     //groupA
     cout<<"Soft: "<<"\n";
