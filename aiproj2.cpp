@@ -14,6 +14,9 @@ array<array<double,3>,3000> input;
 array<int,4000> dout;
 array<array<double,3>,1000> test;
 
+//the plotting was done using MS Excel since plotting using c++ requires some dependencies and you
+//wouldn't be able to run the code on your pc
+
 void hard_train_neuron(std::string file, float te){
 
     // extract and store data
