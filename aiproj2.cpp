@@ -16,9 +16,11 @@ array<array<double,3>,1000> test;
 array<array<double,3>,1000> input_h;
 array<array<double,3>,3000> test_h;
 
-//the plotting was done using MS Excel since plotting using c++ requires some dependencies and you
+//The plotting was done using MS Excel since plotting using c++ requires some dependencies and you
 //wouldn't be able to run the code on your pc
 
+//Both sammy and I did the hard activation function but we chose to include his version in the report
+//Scroll down to soft activation
 void hard_train_neuron(std::string file, float te){
 
     // extract and store data
